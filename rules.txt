@@ -8,11 +8,11 @@ atributos [com getters e setters para todos]:
 - status [verdadeiro (aberta) ou falso (fechada)]
 
 métodos:
-+ abrirConta() [muda o status para verdadeiro; tem que especificar que tipo de conta é; quando abre conta corrente ganha R$50 na conta, já conta poupança ganha R$150]
++ abrirConta() [muda o status para verdadeiro; tem que especificar que tipo de conta é]
 + fecharConta() [para fechar não pode deixar dinheiro lá dentro, tem que sacar, e não pode estar devendo]
 + depositar() [o status da conta deve estar verdadeiro]
 + sacar() [o status da conta deve estar verdadeiro; tenho que ter saldo]
-+ pagarMensal() [a mensalidade vai ser cobrada diretamente do saldo; o cliente de cc vai pagar R$12, o de cp R$20]
++ pagarMensal() [a mensalidade vai ser cobrada diretamente do saldo; o cliente de cc vai pagar R$13,99, o de cp nada]
 
 
 
