@@ -8,9 +8,13 @@ public class BankAccount {
     private float saldo;
     private boolean status;
 
-    public BankAccount(String tipo, String dono) {
-        this.tipo = tipo;
+    public BankAccount(String dono) {
         this.dono = dono;
+
+        int saldo = 0;
+        this.setSaldo(saldo);
+
+        this.setStatus(false);
     }
 
     public int getNumConta() {
@@ -55,12 +59,11 @@ public class BankAccount {
 
 
 
-    public String abrirConta() {
-        int numConta = 001;
-        setNumConta(numConta);
+    public String abrirConta(String tipo) {
+        this.setTipo(tipo);
 
-        int saldo = 0;
-        setSaldo(saldo);
+        int numConta = 001;
+        this.setNumConta(numConta);
 
         String tipoExtenso;
         if(tipo == "cc") {
@@ -69,65 +72,74 @@ public class BankAccount {
             tipoExtenso = "poupança";
         }
 
-        setStatus(true);
-        return this.dono + ", sua conta " + tipoExtenso + " foi aberta com sucesso. Seu número é " + this.numConta + ".";
+        this.setStatus(true);
+        return this.getDono() + ", sua conta " + tipoExtenso + " foi aberta com sucesso. Seu número é " + this.getNumConta() + ".";
     }
 
     public String fecharConta() {
-        if(this.status == false) {
-            return this.dono + ", sua conta já está fechada.";
+        if(this.isStatus() == false) {
+            return this.getDono() + ", sua conta já está fechada.";
         } else {
-            if(this.saldo == 0) {
-                this.status = false;
+            if(this.getSaldo() == 0) {
+                this.setStatus(false);
+            } else if (this.getSaldo() > 0) {
+                return this.getDono() + ", você não pode fechar uma conta que contenha uma quantia em dinheiro.";
             } else {
-                return this.dono + " , você não pode fechar uma conta que contenha um saldo diferente de 0.";
+                return this.getDono() + ", você não pode fechar uma conta em débito.";
             }
         }
-        return this.dono + ", sua conta foi fechada.";
+        return this.getDono() + ", sua conta foi fechada.";
     }
 
     public String depositar(float valor) {
-        if(this.status == false) {
-            return this.dono + ", sua conta está fechada.";
+        if(this.isStatus() == false) {
+            return this.getDono() + ", sua conta está fechada.";
         } else {
             if(valor <= 0) {
-                return this.dono + ", você não pode depositar um valor menor ou igual a 0.";
+                return this.getDono() + ", você não pode depositar um valor menor ou igual a 0.";
             } else {
-                this.setSaldo(this.saldo + valor);
+                this.setSaldo(this.getSaldo() + valor);
             }
+
+            return this.getDono() + ", você depositou R$" + valor + " em sua conta. Seu saldo é de R$" + this.getSaldo() + ".";
         }
-        return this.dono + ", você depositou R$" + valor + " em sua conta. Seu saldo é de R$" + this.saldo + ".";
     }
 
     public String sacar(float valor) {
-        if(this.status == false) {
-            return this.dono + ", sua conta está fechada.";
+        if(this.isStatus() == false) {
+            return this.getDono() + ", sua conta está fechada.";
         } else {
             if(valor <= 0) {
-                return this.dono + ", você não pode sacar um valor menor ou igual a 0.";
+                return this.getDono() + ", você não pode sacar um valor menor ou igual a 0.";
             } else {
-                if(this.saldo < valor) {
-                    return this.dono + ", você não tem saldo suficiente para fazer esse saque.";
+                if(this.getSaldo() < valor) {
+                    return this.getDono() + ", você não tem saldo suficiente para fazer esse saque.";
                 } else {
-                    this.setSaldo(this.saldo - valor);
+                    this.setSaldo(this.getSaldo() - valor);
                 }
+
+                return this.getDono() + ", você sacou R$" + valor + " da sua conta. Seu saldo é de R$" + this.getSaldo() + ".";
             }
         }
-        return this.dono + ", você sacou R$" + valor + " da sua conta. Seu saldo é de R$" + this.saldo + ".";
     }
 
     public String pagarMensal() {
-        if(this.tipo == "cc"){
+        if(this.getTipo() == "cc"){
             float taxaMensal = 13.99f;
-            if(this.saldo < taxaMensal) {
-                this.setSaldo(this.saldo - taxaMensal);
-                return this.dono + ", você não tem saldo suficiente para pagar a mensalidade, portanto ficará devendo R$" + this.saldo + ".";
+
+            if(this.isStatus() == false) {
+                return this.getDono() + ", sua conta está fechada.";
             } else {
-                this.setSaldo(this.saldo - taxaMensal);
-                return this.dono + ", você pagou a mensalidade. Seu saldo atual é de R$" + this.saldo + ".";
+                if(this.getSaldo() < taxaMensal) {
+                    this.setSaldo(this.saldo - taxaMensal);
+                    return this.getDono() + ", você não tem saldo suficiente para pagar a mensalidade, portanto ficará devendo R$" + this.getSaldo() + ".";
+                } else {
+                    this.setSaldo(this.saldo - taxaMensal);
+                    return this.getDono() + ", você pagou a mensalidade. Seu saldo atual é de R$" + this.getSaldo() + ".";
+                }
             }
         } else {
-            return this.dono + ", como sua conta é do tipo poupança, você não precisa pagar uma mensalidade.";
+            return this.getDono() + ", como sua conta é do tipo poupança, você não precisa pagar uma mensalidade.";
         }
     }
 }

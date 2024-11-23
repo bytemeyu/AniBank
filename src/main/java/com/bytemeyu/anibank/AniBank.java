@@ -5,9 +5,9 @@ import com.bytemeyu.anibank.bankaccount.BankAccount;
 public class AniBank {
 
     public static void main(String[] args) {
-        BankAccount anitaAccount = new BankAccount("cc","Anita Yumi Kawasaki");
+        BankAccount anitaAccount = new BankAccount("Anita Yumi Kawasaki");
 
-        System.out.println(anitaAccount.abrirConta());
+        System.out.println(anitaAccount.abrirConta("cc"));
         //System.out.println(anitaAccount.fecharConta());
         //System.out.println(anitaAccount.isStatus());
         //System.out.println(anitaAccount.abrirConta("cc","Anita Yumi Kawasaki"));
@@ -31,8 +31,20 @@ public class AniBank {
 
 
 
-        BankAccount diogoAccount = new BankAccount("cp", "Diogo Vieira de Melo");
-        System.out.println(diogoAccount.abrirConta());
+        BankAccount diogoAccount = new BankAccount("Diogo Vieira de Melo");
+        System.out.println(diogoAccount.abrirConta("cp"));
         System.out.println(diogoAccount.pagarMensal());
+
+
+
+        BankAccount gustavoAccount = new BankAccount("Gustavo Guanabara");
+        System.out.println(gustavoAccount.abrirConta("cc"));
+        System.out.println(gustavoAccount.pagarMensal());
+        System.out.println(gustavoAccount.fecharConta());
+        System.out.println(gustavoAccount.getSaldo());
+        System.out.println(gustavoAccount.depositar(13.99f));
+        System.out.println(gustavoAccount.getSaldo());
+        System.out.println(gustavoAccount.fecharConta());
+        System.out.println(gustavoAccount.pagarMensal());
     }
 }
