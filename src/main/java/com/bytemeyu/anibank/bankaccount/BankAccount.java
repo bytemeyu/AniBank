@@ -8,6 +8,11 @@ public class BankAccount {
     private float saldo;
     private boolean status;
 
+    public BankAccount(String tipo, String dono) {
+        this.tipo = tipo;
+        this.dono = dono;
+    }
+
     public int getNumConta() {
         return this.numConta;
     }
@@ -50,13 +55,9 @@ public class BankAccount {
 
 
 
-    public String abrirConta(String tipo, String dono) {
+    public String abrirConta() {
         int numConta = 001;
         setNumConta(numConta);
-
-        setTipo(tipo);
-
-        setDono(dono);
 
         int saldo = 0;
         setSaldo(saldo);
