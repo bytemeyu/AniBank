@@ -17,6 +17,16 @@ public class BankAccount {
         this.setStatus(false);
     }
 
+    public void currentStatus() {
+        System.out.println("_______________");
+        System.out.println("Número da Conta: " + this.getNumConta());
+        System.out.println("Tipo: " + this.getTipo());
+        System.out.println("Dono: " + this.getDono());
+        System.out.println("Saldo: " + this.getSaldo());
+        System.out.println("Status: " + this.isStatus());
+        System.out.println("_______________");
+    }
+
     public int getNumConta() {
         return this.numConta;
     }
@@ -131,7 +141,7 @@ public class BankAccount {
                 return this.getDono() + ", sua conta está fechada.";
             } else {
                 if(this.getSaldo() < taxaMensal) {
-                    this.setSaldo(this.saldo - taxaMensal);
+                    this.setSaldo(this.getSaldo() - taxaMensal);
                     return this.getDono() + ", você não tem saldo suficiente para pagar a mensalidade, portanto ficará devendo R$" + this.getSaldo() + ".";
                 } else {
                     this.setSaldo(this.saldo - taxaMensal);
