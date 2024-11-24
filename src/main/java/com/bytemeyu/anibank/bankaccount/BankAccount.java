@@ -1,46 +1,62 @@
 package com.bytemeyu.anibank.bankaccount;
 
+import java.util.UUID;
+
 public class BankAccount {
 
-    public int numConta;
-    protected String tipo;
+    public String codigoConta;
+    protected String tipoConta;
     private String dono;
     private float saldo;
-    private boolean status;
+    private boolean isAtiva;
+
+    private String gerarCodigoConta() {
+        return UUID.randomUUID().toString();
+    }
+
+    private boolean ePositivo(float valor) {
+        if(valor > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public BankAccount(String dono) {
+        this.codigoConta = gerarCodigoConta();
+
         this.dono = dono;
 
         int saldo = 0;
         this.setSaldo(saldo);
 
-        this.setStatus(false);
+        this.setIsAtiva(false);
     }
 
     public void currentStatus() {
         System.out.println("_______________");
-        System.out.println("Número da Conta: " + this.getNumConta());
-        System.out.println("Tipo: " + this.getTipo());
+        System.out.println("Código da Conta: " + this.getCodigoConta());
+        System.out.println("Tipo da Conta: " + this.getTipoConta());
         System.out.println("Dono: " + this.getDono());
         System.out.println("Saldo: " + this.getSaldo());
-        System.out.println("Status: " + this.isStatus());
+        System.out.println("Está ativa? " + this.isAtiva());
         System.out.println("_______________");
     }
 
-    public int getNumConta() {
-        return this.numConta;
+    public String getCodigoConta() {
+        return this.codigoConta;
     }
 
-    public void setNumConta(int numConta) {
-        this.numConta = numConta;
+    public void setCodigoConta(String codigoConta) {
+        this.codigoConta = codigoConta;
     }
 
-    public String getTipo() {
-        return this.tipo;
+    public String getTipoConta() {
+        return this.tipoConta;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setTipoConta(String tipoConta) {
+        this.tipoConta = tipoConta;
     }
 
     public String getDono() {
@@ -59,97 +75,116 @@ public class BankAccount {
         this.saldo = saldo;
     }
 
-    public boolean isStatus() {
-        return this.status;
+    public boolean isAtiva() {
+        return this.isAtiva;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setIsAtiva(boolean status) {
+        this.isAtiva = status;
     }
 
 
 
-    public String abrirConta(String tipo) {
-        this.setTipo(tipo);
-
-        int numConta = 001;
-        this.setNumConta(numConta);
-
-        String tipoExtenso;
-        if(tipo == "cc") {
-            tipoExtenso = "corrente";
-        } else {
-            tipoExtenso = "poupança";
+    public boolean abrirConta(String tipoConta) {
+        if(this.isAtiva() == true) {
+            System.out.println("Conta já está aberta.");
+            return false;
         }
 
-        this.setStatus(true);
-        return this.getDono() + ", sua conta " + tipoExtenso + " foi aberta com sucesso. Seu número é " + this.getNumConta() + ".";
+        this.setTipoConta(tipoConta);
+
+        String tipoContaExtenso;
+        if(tipoConta.equals("cc")) {
+            tipoContaExtenso = "corrente";
+        } else {
+            tipoContaExtenso = "poupança";
+        }
+
+        this.setIsAtiva(true);
+
+        System.out.println(this.getDono() + ", sua conta " + tipoContaExtenso + " foi aberta com sucesso.");
+        return true;
     }
 
-    public String fecharConta() {
-        if(this.isStatus() == false) {
-            return this.getDono() + ", sua conta já está fechada.";
+    public boolean fecharConta() {
+        if(this.isAtiva() == false) {
+            System.out.println("Conta já está fechada.");
+            return false;
         } else {
             if(this.getSaldo() == 0) {
-                this.setStatus(false);
+                this.setIsAtiva(false);
             } else if (this.getSaldo() > 0) {
-                return this.getDono() + ", você não pode fechar uma conta que contenha uma quantia em dinheiro.";
+                System.out.println(this.getDono() + ", você não pode fechar uma conta que contenha uma quantia em dinheiro.");
+                return false;
             } else {
-                return this.getDono() + ", você não pode fechar uma conta em débito.";
+                System.out.println(this.getDono() + ", você não pode fechar uma conta com saldo negativo.");
+                return false;
             }
         }
-        return this.getDono() + ", sua conta foi fechada.";
+        System.out.println(this.getDono() + ", sua conta foi fechada.");
+        return true;
     }
 
-    public String depositar(float valor) {
-        if(this.isStatus() == false) {
-            return this.getDono() + ", sua conta está fechada.";
+    public boolean depositar(float valor) {
+        if(this.isAtiva() == false) {
+            System.out.println("Conta está fechada.");
+            return false;
         } else {
-            if(valor <= 0) {
-                return this.getDono() + ", você não pode depositar um valor menor ou igual a 0.";
+            if(!ePositivo(valor)) {
+                System.out.println(this.getDono() + ", você não pode depositar um valor menor ou igual a 0.");
+                return false;
             } else {
                 this.setSaldo(this.getSaldo() + valor);
             }
 
-            return this.getDono() + ", você depositou R$" + valor + " em sua conta. Seu saldo é de R$" + this.getSaldo() + ".";
+            System.out.println(this.getDono() + ", você depositou R$" + valor + " em sua conta. Seu saldo é de R$" + this.getSaldo() + ".");
+            return true;
         }
     }
 
-    public String sacar(float valor) {
-        if(this.isStatus() == false) {
-            return this.getDono() + ", sua conta está fechada.";
+    public boolean sacar(float valor) {
+        if(this.isAtiva() == false) {
+            System.out.println("Conta está fechada.");
+            return false;
         } else {
-            if(valor <= 0) {
-                return this.getDono() + ", você não pode sacar um valor menor ou igual a 0.";
+            if(!ePositivo(valor)) {
+                System.out.println(this.getDono() + ", você não pode sacar um valor menor ou igual a 0.");
+                return false;
             } else {
                 if(this.getSaldo() < valor) {
-                    return this.getDono() + ", você não tem saldo suficiente para fazer esse saque.";
+                    System.out.println(this.getDono() + ", você não tem saldo suficiente para fazer esse saque.");
+                    return false;
                 } else {
                     this.setSaldo(this.getSaldo() - valor);
                 }
 
-                return this.getDono() + ", você sacou R$" + valor + " da sua conta. Seu saldo é de R$" + this.getSaldo() + ".";
+                System.out.println(this.getDono() + ", você sacou R$" + valor + " da sua conta. Seu saldo é de R$" + this.getSaldo() + ".");
+                return true;
             }
         }
     }
 
-    public String pagarMensal() {
-        if(this.getTipo() == "cc"){
+    public boolean pagarMensal() {
+        if(this.getTipoConta().equals("cc")){
             float taxaMensal = 13.99f;
 
-            if(this.isStatus() == false) {
-                return this.getDono() + ", sua conta está fechada.";
+            if(this.isAtiva() == false) {
+                System.out.println("Conta está fechada.");
+                return false;
             } else {
                 if(this.getSaldo() < taxaMensal) {
                     this.setSaldo(this.getSaldo() - taxaMensal);
-                    return this.getDono() + ", você não tem saldo suficiente para pagar a mensalidade, portanto ficará devendo R$" + this.getSaldo() + ".";
+                    System.out.println(this.getDono() + ", você não tem saldo suficiente para pagar a mensalidade, portanto ficará devendo R$" + this.getSaldo() + ".");
+                    return true;
                 } else {
                     this.setSaldo(this.saldo - taxaMensal);
-                    return this.getDono() + ", você pagou a mensalidade. Seu saldo atual é de R$" + this.getSaldo() + ".";
+                    System.out.println(this.getDono() + ", você pagou a mensalidade. Seu saldo atual é de R$" + this.getSaldo() + ".");
+                    return true;
                 }
             }
         } else {
-            return this.getDono() + ", como sua conta é do tipo poupança, você não precisa pagar uma mensalidade.";
+            System.out.println(this.getDono() + ", como sua conta é do tipo conta poupança, você não precisa pagar uma mensalidade.");
+            return true;
         }
     }
 }
