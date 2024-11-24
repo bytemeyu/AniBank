@@ -15,11 +15,7 @@ public class BankAccount {
     }
 
     private boolean ePositivo(float valor) {
-        if(valor > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return valor > 0;
     }
 
     public BankAccount(String dono) {
@@ -86,7 +82,7 @@ public class BankAccount {
 
 
     public boolean abrirConta(String tipoConta) {
-        if(this.isAtiva() == true) {
+        if(this.isAtiva()) {
             System.out.println("Conta já está aberta.");
             return false;
         }
@@ -107,7 +103,7 @@ public class BankAccount {
     }
 
     public boolean fecharConta() {
-        if(this.isAtiva() == false) {
+        if(!this.isAtiva()) {
             System.out.println("Conta já está fechada.");
             return false;
         } else {
@@ -126,7 +122,7 @@ public class BankAccount {
     }
 
     public boolean depositar(float valor) {
-        if(this.isAtiva() == false) {
+        if(!this.isAtiva()) {
             System.out.println("Conta está fechada.");
             return false;
         } else {
@@ -143,7 +139,7 @@ public class BankAccount {
     }
 
     public boolean sacar(float valor) {
-        if(this.isAtiva() == false) {
+        if(!this.isAtiva()) {
             System.out.println("Conta está fechada.");
             return false;
         } else {
@@ -168,7 +164,7 @@ public class BankAccount {
         if(this.getTipoConta().equals("cc")){
             float taxaMensal = 13.99f;
 
-            if(this.isAtiva() == false) {
+            if(!this.isAtiva()) {
                 System.out.println("Conta está fechada.");
                 return false;
             } else {
