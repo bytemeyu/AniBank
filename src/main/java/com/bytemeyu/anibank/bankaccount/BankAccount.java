@@ -2,10 +2,10 @@ package com.bytemeyu.anibank.bankaccount;
 
 import java.util.UUID;
 
-public class BankAccount {
+public class BankAccount implements BankAccountInterface {
 
-    public String codigoConta;
-    protected String tipoConta;
+    private String codigoConta;
+    private String tipoConta;
     private String dono;
     private float saldo;
     private boolean isAtiva;
@@ -38,6 +38,8 @@ public class BankAccount {
         System.out.println("Está ativa? " + this.isAtiva());
         System.out.println("_______________");
     }
+
+
 
     public String getCodigoConta() {
         return this.codigoConta;
@@ -80,7 +82,7 @@ public class BankAccount {
     }
 
 
-
+    @Override
     public boolean abrirConta(String tipoConta) {
         if(this.isAtiva()) {
             System.out.println("Conta já está aberta.");
@@ -102,6 +104,7 @@ public class BankAccount {
         return true;
     }
 
+    @Override
     public boolean fecharConta() {
         if(!this.isAtiva()) {
             System.out.println("Conta já está fechada.");
@@ -121,6 +124,7 @@ public class BankAccount {
         return true;
     }
 
+    @Override
     public boolean depositar(float valor) {
         if(!this.isAtiva()) {
             System.out.println("Conta está fechada.");
@@ -138,6 +142,7 @@ public class BankAccount {
         }
     }
 
+    @Override
     public boolean sacar(float valor) {
         if(!this.isAtiva()) {
             System.out.println("Conta está fechada.");
@@ -160,6 +165,7 @@ public class BankAccount {
         }
     }
 
+    @Override
     public boolean pagarMensal() {
         if(this.getTipoConta().equals("cc")){
             float taxaMensal = 13.99f;
